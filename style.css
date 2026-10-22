@@ -1,0 +1,42 @@
+/* ==========================================
+   NETGUIDE - STYLESHEET PRINCIPAL
+   ========================================== */
+
+/* Suporte para Safe Area em dispositivos móveis (Notch / Dynamic Island) */
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 1rem);
+}
+
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 1rem);
+}
+
+/* Estilização moderna e suave da barra de rolagem */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.4);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.7);
+}
+
+/* Transições e efeitos para os elementos de Realidade Aumentada (RA) */
+.ar-overlay {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Efeito de vidro (Glassmorphism) auxiliar se necessário */
+.glass-effect {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
