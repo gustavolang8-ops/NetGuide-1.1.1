@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-PT">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -25,7 +25,7 @@
   <!-- CONTAINER DE NOTIFICAÇÕES TOAST (FEEDBACK VISUAL) -->
   <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2.5 pointer-events-none"></div>
 
-  <!-- BARRA SUPERIOR MÍNIMA PARA CELULAR (APENAS MENU E ADMIN) -->
+  <!-- BARRA SUPERIOR MÍNIMA PARA TELEMÓVEL (APENAS MENU E ADMIN) -->
   <div class="sm:hidden bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 px-4 pt-safe flex justify-between items-center z-50 w-full fixed top-0 left-0 h-16 shadow-sm">
     <button onclick="toggleMobileMenu()" class="text-slate-700 dark:text-slate-200 p-2.5 rounded-xl bg-slate-100/80 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center gap-2 text-[13px] font-semibold active:scale-95 transition-all duration-200 hover:scale-105">
       <i data-lucide="menu" class="w-5 h-5 text-cyan-600"></i> Menu
@@ -105,7 +105,7 @@
       <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
         <div>
           <h2 class="text-2xl font-black text-slate-900 dark:text-white tracking-tight">Escaneamento com RA</h2>
-          <p class="text-slate-600 dark:text-slate-300 text-[13px] mt-0.5">Aponte a câmera para o equipamento homologado para iniciar a detecção inteligente.</p>
+          <p class="text-slate-600 dark:text-slate-300 text-[13px] mt-0.5">Aponte a câmara para o equipamento homologado para iniciar a deteção inteligente.</p>
         </div>
         <div id="simulation-buttons" class="hidden flex gap-2 flex-wrap">
           <button id="btn-toggle-sim" onclick="toggleCorrectionStep()" class="bg-cyan-600 hover:bg-cyan-500 text-white text-[13px] font-semibold px-4 py-2.5 rounded-xl transition-all duration-200 hover:scale-105 shadow-lg shadow-cyan-600/20 active:scale-95">
@@ -121,7 +121,7 @@
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full">
-        <!-- ÁREA DA CÂMERA -->
+        <!-- ÁREA DA CÂMARA -->
         <div class="lg:col-span-2 relative bg-slate-950 rounded-3xl overflow-hidden border border-slate-200/80 dark:border-slate-800 h-[360px] sm:h-[400px] lg:aspect-video flex items-center justify-center w-full shadow-xl">
           <video id="webcam" autoplay playsinline class="w-full h-full object-cover"></video>
           
@@ -141,7 +141,7 @@
           <!-- LOADING -->
           <div id="scan-loading" class="hidden absolute inset-0 flex flex-col items-center justify-center bg-slate-900/90 backdrop-blur-md text-center p-4 space-y-3 z-20">
             <div class="w-12 h-12 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin shadow-lg"></div>
-            <p id="loading-text" class="text-[13px] font-semibold text-cyan-200">Lendo código de barras / MAC...</p>
+            <p id="loading-text" class="text-[13px] font-semibold text-cyan-200">A ler código de barras / MAC...</p>
           </div>
 
           <!-- OVERLAY RA -->
@@ -167,7 +167,7 @@
             <div id="ar-error-overlay" class="ar-overlay absolute left-1/2 top-1/2 -translate-x-12 -translate-y-16 flex flex-col items-center">
               <div class="bg-red-500/95 text-white text-[11px] px-2.5 py-1 rounded-xl shadow-xl flex items-center gap-1.5 border border-red-400 whitespace-nowrap font-bold">
                 <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i>
-                <span>Cabo incorreto (Detectado na LAN 2)</span>
+                <span>Cabo incorreto (Detetado na LAN 2)</span>
               </div>
               <div class="text-cyan-400 mt-1.5 flex flex-col items-center animate-bounce">
                 <i data-lucide="arrow-down" class="w-5 h-5 text-cyan-400 stroke-[3]"></i>
@@ -202,16 +202,35 @@
           </div>
         </div>
 
-        <!-- PAINEL LATERAL DA CÂMERA -->
+        <!-- PAINEL LATERAL DA CÂMARA -->
         <div class="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm p-6 rounded-3xl flex flex-col justify-between w-full hover:shadow-md transition">
           <div>
             <div id="status-badge" class="flex items-center gap-2 text-[13px] font-bold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3.5 py-1.5 rounded-full w-fit mb-4">
               <span class="w-2 h-2 rounded-full bg-slate-400"></span>
-              Aguardando Leitura da Câmera
+              Aguardando Leitura da Câmara
             </div>
 
             <h3 id="router-title" class="text-xl font-bold text-slate-900 dark:text-white mb-1">Nenhum Equipamento</h3>
-            <p id="router-desc" class="text-[13px] text-slate-600 dark:text-slate-300 mb-5">Ative a câmera para escanear a etiqueta e puxar os dados do sistema.</p>
+            <p id="router-desc" class="text-[13px] text-slate-600 dark:text-slate-300 mb-5">Ative a câmara para escanear a etiqueta e puxar os dados do sistema.</p>
+
+            <!-- CAIXA DE PERGUNTA INTERATIVA PARA LINK LOSS -->
+            <div id="loss-question-container" class="hidden mb-5 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 p-4 rounded-2xl space-y-3">
+              <div class="flex items-center gap-2 text-red-700 dark:text-red-400 font-bold text-[13px]">
+                <i data-lucide="help-circle" class="w-4 h-4"></i>
+                <span>Está a constar uma luz vermelha na ONU?</span>
+              </div>
+              <p class="text-[12px] text-slate-600 dark:text-slate-300">
+                Isto indica interrupção no sinal de fibra óptica que vem da rua.
+              </p>
+              <div class="flex gap-2 pt-1">
+                <button onclick="handleLosAnswer(true)" class="flex-1 bg-red-600 hover:bg-red-500 text-white text-[12px] font-bold py-2 px-3 rounded-xl transition shadow-sm cursor-pointer active:scale-95">
+                  Sim, está vermelho
+                </button>
+                <button onclick="handleLosAnswer(false)" class="flex-1 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-[12px] font-bold py-2 px-3 rounded-xl transition cursor-pointer active:scale-95">
+                  Não, está normal
+                </button>
+              </div>
+            </div>
 
             <div class="space-y-2.5">
               <p class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Opções de Autoatendimento</p>
@@ -771,10 +790,10 @@
         const loadingText = document.getElementById('loading-text');
         loadingDiv.classList.remove('hidden');
 
-        showToast('Câmera conectada com sucesso!', 'success');
+        showToast('Câmara conectada com sucesso!', 'success');
 
-        setTimeout(() => { loadingText.innerText = "Etiqueta encontrada! Lendo MAC Address..."; }, 1000);
-        setTimeout(() => { loadingText.innerText = "Consultando base de dados NetGuide..."; }, 2200);
+        setTimeout(() => { loadingText.innerText = "Etiqueta encontrada! A ler MAC Address..."; }, 1000);
+        setTimeout(() => { loadingText.innerText = "A consultar base de dados NetGuide..."; }, 2200);
 
         setTimeout(() => {
           loadingDiv.classList.add('hidden');
@@ -790,7 +809,7 @@
 
           cameraActive = true;
           startARTrackingSimulation();
-          showToast('Roteador detectado com sucesso!', 'success');
+          showToast('Roteador detetado com sucesso!', 'success');
         }, 3400);
 
       } catch (err) {
@@ -831,12 +850,14 @@
       const wanMarker = document.getElementById('ar-wan-marker');
       const successOverlay = document.getElementById('ar-success-overlay');
       const lossOverlay = document.getElementById('ar-loss-overlay');
+      const lossQuestion = document.getElementById('loss-question-container');
       const btnContinue = document.getElementById('btn-continue-diag');
       const btnSim = document.getElementById('btn-toggle-sim');
       const btnResetGuide = document.getElementById('btn-reset-guide');
 
       btnResetGuide.classList.add('hidden');
       lossOverlay.classList.add('hidden');
+      lossQuestion.classList.add('hidden');
 
       if (isCorrected) {
         errorOverlay.classList.add('hidden');
@@ -859,7 +880,7 @@
         btnContinue.classList.add('hidden');
         btnSim.innerText = "Simular Encaixe Correto";
         btnSim.classList.replace('bg-amber-600', 'bg-cyan-600');
-        showToast('Simulando cabo conectado na porta incorreta.', 'warning');
+        showToast('A simular cabo conectado na porta incorreta.', 'warning');
       }
     }
 
@@ -868,6 +889,7 @@
       const wanMarker = document.getElementById('ar-wan-marker');
       const successOverlay = document.getElementById('ar-success-overlay');
       const lossOverlay = document.getElementById('ar-loss-overlay');
+      const lossQuestion = document.getElementById('loss-question-container');
       const btnContinue = document.getElementById('btn-continue-diag');
       const btnResetGuide = document.getElementById('btn-reset-guide');
       const badge = document.getElementById('status-badge');
@@ -876,6 +898,7 @@
       wanMarker.classList.add('hidden');
       successOverlay.classList.add('hidden');
       lossOverlay.classList.add('hidden');
+      lossQuestion.classList.add('hidden');
       btnContinue.classList.add('hidden');
 
       btnResetGuide.classList.remove('hidden');
@@ -890,8 +913,8 @@
       `;
 
       document.getElementById('router-title').innerText = "TP-Link AC1200 (Padrão de Fábrica)";
-      document.getElementById('router-desc').innerText = "Padrão de luzes piscando detectado: Equipamento resetado.";
-      showToast('Atenção: Roteador em padrão de fábrica detectado.', 'warning');
+      document.getElementById('router-desc').innerText = "Padrão de luzes piscando detetado: Equipamento resetado.";
+      showToast('Atenção: Roteador em padrão de fábrica detetado.', 'warning');
     }
 
     function simulateLossState() {
@@ -899,6 +922,7 @@
       const wanMarker = document.getElementById('ar-wan-marker');
       const successOverlay = document.getElementById('ar-success-overlay');
       const lossOverlay = document.getElementById('ar-loss-overlay');
+      const lossQuestion = document.getElementById('loss-question-container');
       const btnContinue = document.getElementById('btn-continue-diag');
       const btnResetGuide = document.getElementById('btn-reset-guide');
       const badge = document.getElementById('status-badge');
@@ -910,14 +934,30 @@
       btnResetGuide.classList.add('hidden');
 
       lossOverlay.classList.remove('hidden');
+      lossQuestion.classList.remove('hidden'); // Exibe a pergunta interativa na ONU
 
       badge.className = "flex items-center gap-2 text-[13px] font-bold text-red-700 dark:text-red-400 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 px-3.5 py-1.5 rounded-full w-fit mb-4";
       badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span> Alerta Crítico: Link Loss na ONU (LED LOS Vermelho)';
 
-      document.getElementById('router-title').innerText = "ONU Externa (Link Loss Detectado)";
+      document.getElementById('router-title').innerText = "ONU Externa (Link Loss Detetado)";
       document.getElementById('router-desc').innerText = "O LED LOS na caixinha da fibra (ONU à direita) está vermelho. Perda de sinal óptico na rede.";
       
       showToast('Alerta: Link Loss detetado na ONU externa!', 'warning');
+    }
+
+    function handleLosAnswer(hasLoss) {
+      if (hasLoss) {
+        showToast('Falha óptica detetada. A redirecionar para a central de suporte...', 'warning');
+        setTimeout(() => {
+          const whatsappBtn = document.getElementById('btn-whatsapp-support');
+          const baseHref = whatsappBtn ? whatsappBtn.href.split('?')[0] : 'https://wa.me/558000500800';
+          const message = encodeURIComponent("Olá, o meu app NetGuide diagnosticou um Link Loss (LED LOS vermelho na ONU). Preciso de atendimento técnico.");
+          window.open(`${baseHref}?text=${message}`, '_blank');
+        }, 1500);
+      } else {
+        showToast('Perfeito! O sinal óptico está normal. Vamos verificar os cabos locais.', 'success');
+        document.getElementById('loss-question-container').classList.add('hidden');
+      }
     }
 
     function finalizeValidation() {
