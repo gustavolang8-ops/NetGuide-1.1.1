@@ -934,7 +934,7 @@
       btnResetGuide.classList.add('hidden');
 
       lossOverlay.classList.remove('hidden');
-      lossQuestion.classList.remove('hidden'); // Exibe a pergunta interativa na ONU
+      lossQuestion.classList.remove('hidden');
 
       badge.className = "flex items-center gap-2 text-[13px] font-bold text-red-700 dark:text-red-400 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 px-3.5 py-1.5 rounded-full w-fit mb-4";
       badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span> Alerta Crítico: Link Loss na ONU (LED LOS Vermelho)';
@@ -947,13 +947,11 @@
 
     function handleLosAnswer(hasLoss) {
       if (hasLoss) {
-        showToast('Falha óptica detetada. A redirecionar para a central de suporte...', 'warning');
-        setTimeout(() => {
-          const whatsappBtn = document.getElementById('btn-whatsapp-support');
-          const baseHref = whatsappBtn ? whatsappBtn.href.split('?')[0] : 'https://wa.me/558000500800';
-          const message = encodeURIComponent("Olá, o meu app NetGuide diagnosticou um Link Loss (LED LOS vermelho na ONU). Preciso de atendimento técnico.");
-          window.open(`${baseHref}?text=${message}`, '_blank');
-        }, 1500);
+        // Redirecionamento instantâneo compatível com telemóveis (evita bloqueio de popup)
+        const whatsappBtn = document.getElementById('btn-whatsapp-support');
+        const baseHref = whatsappBtn ? whatsappBtn.href.split('?')[0] : 'https://wa.me/558000500800';
+        const message = encodeURIComponent("Olá, o meu app NetGuide diagnosticou um Link Loss (LED LOS vermelho na ONU). Preciso de atendimento técnico.");
+        window.location.href = `${baseHref}?text=${message}`;
       } else {
         showToast('Perfeito! O sinal óptico está normal. Vamos verificar os cabos locais.', 'success');
         document.getElementById('loss-question-container').classList.add('hidden');
