@@ -114,6 +114,9 @@
           <button id="btn-sim-reset" onclick="simulateResetState()" class="bg-amber-600 hover:bg-amber-500 text-white text-[13px] font-semibold px-4 py-2.5 rounded-xl transition-all duration-200 hover:scale-105 shadow-lg shadow-amber-600/20 active:scale-95">
             Simular Roteador Resetado
           </button>
+          <button id="btn-sim-loss" onclick="simulateLossState()" class="bg-red-600 hover:bg-red-500 text-white text-[13px] font-semibold px-4 py-2.5 rounded-xl transition-all duration-200 hover:scale-105 shadow-lg shadow-red-600/20 active:scale-95">
+            Simular Link Loss na ONU
+          </button>
         </div>
       </div>
 
@@ -182,6 +185,18 @@
               <div class="bg-emerald-500 text-white text-[11px] px-2.5 py-1 rounded-xl shadow-xl flex items-center gap-1.5 border border-emerald-300 whitespace-nowrap font-bold">
                 <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i>
                 <span>Conexão correta na WAN!</span>
+              </div>
+            </div>
+
+            <!-- OVERLAY DE LINK LOSS NA ONU EXTERNA -->
+            <div id="ar-loss-overlay" class="hidden ar-overlay absolute left-1/2 top-1/2 -translate-x-12 -translate-y-16 flex flex-col items-center">
+              <div class="bg-red-600 text-white text-[11px] px-2.5 py-1 rounded-xl shadow-xl flex items-center gap-1.5 border border-red-400 whitespace-nowrap font-bold">
+                <i data-lucide="zap-off" class="w-3.5 h-3.5"></i>
+                <span>Link Loss na ONU (LED LOS Vermelho)</span>
+              </div>
+              <div class="text-red-400 mt-1.5 flex flex-col items-center animate-bounce">
+                <i data-lucide="arrow-down" class="w-5 h-5 text-red-400 stroke-[3]"></i>
+                <span class="bg-red-600 text-white text-[10px] px-2 py-0.5 rounded-lg shadow font-bold">Olhe para a caixinha da fibra (ONU à direita)</span>
               </div>
             </div>
           </div>
@@ -288,7 +303,7 @@
         </div>
       </div>
 
-      <!-- CONFIGURAÇÃO DE WHATSAPP (WHITE LABEL COM MÁSCARA AUTOMÁTICA) -->
+      <!-- CONFIGURAÇÃO DE WHATSAPP -->
       <div class="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm p-6 rounded-3xl mt-6 w-full overflow-hidden">
         <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Configuração de Suporte (WhatsApp)</h3>
         <p class="text-[13px] text-slate-600 dark:text-slate-300 mb-4">Defina o número de telefone que os clientes usarão para pedir ajuda. Digite apenas números (o 55 é adicionado automaticamente se esquecer).</p>
@@ -388,7 +403,7 @@
     </div>
   </div>
 
-  <!-- MODAL: ADICIONAR EQUIPAMENTO (SEM CAMPO DE IMAGEM COMPLEXO) -->
+  <!-- MODAL: ADICIONAR EQUIPAMENTO -->
   <div id="modal-add-equip" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 shadow-2xl w-full max-w-md rounded-3xl p-6 md:p-8 space-y-4 max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-start">
@@ -556,12 +571,12 @@
       const iconContainer = document.getElementById('modal-feature-icon');
 
       if (type === 'led') {
-        title.innerText = "Diagnóstico Inteligente de LEDs (AC1200)";
-        desc.innerHTML = "O sistema analisa o padrão óptico do roteador. <strong>Atenção:</strong> Se todos os LEDs estiverem piscando simultaneamente, o equipamento foi restaurado para o padrão de fábrica (resetado) e perdeu as configurações de conexão.";
+        title.innerText = "Diagnóstico Inteligente de LEDs";
+        desc.innerHTML = "O sistema analisa o padrão óptico. <strong>Atenção ao Link Loss (ONU):</strong> Se o LED LOS na caixinha externa da fibra (ONU) estiver vermelho, há perda de sinal óptico. Se todos os LEDs do roteador piscarem juntos, o equipamento foi resetado.";
         iconContainer.innerHTML = '<i data-lucide="activity" class="w-5 h-5"></i>';
       } else if (type === 'cables') {
         title.innerText = "Guia de Portas e Cabos (RA)";
-        desc.innerHTML = "A Realidade Aumentada (RA) identifica o roteador. Certifique-se de que o cabo principal da fibra/modem está conectado firmemente na porta <strong>WAN (azul)</strong> e os dispositivos locais nas portas <strong>LAN</strong>.";
+        desc.innerHTML = "A Realidade Aumentada (RA) identifica o roteador. Certifique-se de que o cabo azul da internet vindo da ONU está conectado firmemente na porta <strong>WAN</strong> do roteador TP-Link.";
         iconContainer.innerHTML = '<i data-lucide="cable" class="w-5 h-5"></i>';
       } else if (type === 'wifi') {
         title.innerText = "Configuração e Otimização do Wi-Fi";
@@ -573,8 +588,8 @@
             </button>
             <div id="wifi-info-content" class="hidden mt-3 p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-100 dark:border-slate-800 space-y-2 text-[12px] leading-relaxed text-slate-600 dark:text-slate-300">
               <p>As redes Wi-Fi operam em duas frequências principais:</p>
-              <p>• <strong>2.4 GHz:</strong> Possui maior alcance de sinal e melhor capacidade de atravessar paredes e obstáculos. Por ser uma frequência amplamente utilizada, está mais sujeita a interferências e opera com velocidades moderadas.</p>
-              <p>• <strong>5 GHz:</strong> Oferece taxas de transferência mais elevadas e maior estabilidade de conexão, ideal para streaming e jogos. Em contrapartida, possui menor alcance e maior dificuldade para ultrapassar barreiras físicas.</p>
+              <p>• <strong>2.4 GHz:</strong> Maior alcance e melhor penetração em paredes, com velocidades moderadas.</p>
+              <p>• <strong>5 GHz:</strong> Altas taxas de transferência e estabilidade superior para streaming e jogos, com menor alcance físico.</p>
             </div>
           </div>
         `;
@@ -586,35 +601,22 @@
           <div class="space-y-3 text-left">
             <div class="bg-slate-50 dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-100 dark:border-slate-700">
               <strong class="text-cyan-600 dark:text-cyan-400 block mb-1">1. Conecte à Rede Wi-Fi Inicial</strong>
-              <p>Conecte um computador ou celular à rede Wi-Fi padrão gerada pelo roteador. O nome aparece como "Roteador" e a senha está na etiqueta na parte inferior (Senha Wireless).</p>
+              <p>Conecte um dispositivo à rede Wi-Fi padrão gerada pelo roteador (informada na etiqueta inferior).</p>
             </div>
 
             <div class="bg-slate-50 dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-100 dark:border-slate-700">
               <strong class="text-cyan-600 dark:text-cyan-400 block mb-1">2. Acesse a Página Web</strong>
-              <p>Com o dispositivo conectado (mesmo sem internet), abra o navegador, digite <code class="bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 rounded text-cyan-700 dark:text-cyan-300 font-mono">192.168.0.1</code> na barra de endereços e aperte Enter <span class="text-[11px] text-slate-400 block mt-0.5">(o IP pode variar conforme o equipamento)</span>.</p>
+              <p>Abra o navegador, digite <code class="bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 rounded text-cyan-700 dark:text-cyan-300 font-mono">192.168.0.1</code> e aperte Enter.</p>
             </div>
 
             <div class="bg-slate-50 dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-100 dark:border-slate-700">
-              <strong class="text-cyan-600 dark:text-cyan-400 block mb-1">3. Insira a Senha</strong>
-              <p>Vai abrir uma página solicitando a senha. Insira a senha wireless informada na etiqueta.</p>
+              <strong class="text-cyan-600 dark:text-cyan-400 block mb-1">3. Selecione a Conexão PPPoE</strong>
+              <p>Na configuração rápida, escolha a opção <strong>PPPoE</strong> e insira o usuário e senha fornecidos pelo provedor.</p>
             </div>
 
             <div class="bg-slate-50 dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-100 dark:border-slate-700">
-              <strong class="text-cyan-600 dark:text-cyan-400 block mb-1">4. Selecione a Conexão PPPoE</strong>
-              <p>Na aba de configuração rápida, selecione a opção <strong>PPPoE</strong> e clique em avançar.</p>
-            </div>
-
-            <div class="bg-slate-50 dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-100 dark:border-slate-700">
-              <strong class="text-cyan-600 dark:text-cyan-400 block mb-1">5. Credenciais de Acesso</strong>
-              <p>Insira o <strong>usuário</strong> e a <strong>senha PPPoE</strong> fornecidos pelo provedor. Não é necessário marcar nem desmarcar mais nada, apenas clique em avançar.</p>
-            </div>
-
-            <div class="bg-slate-50 dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-100 dark:border-slate-700">
-              <strong class="text-cyan-600 dark:text-cyan-400 block mb-1">6. Nome e Senha do Wi-Fi (SSID)</strong>
-              <p>A próxima janela serve para configurar o nome e a senha do Wi-Fi:<br>
-              • <strong>SSID:</strong> Nome desejado para a rede <span class="text-[11px] text-slate-400 block">(dica: se tiver 5G disponível, adicione '5G' no final para diferenciar)</span><br>
-              • <strong>Password:</strong> Senha da rede Wi-Fi.<br>
-              Avance até o final e salve. O equipamento vai reiniciar com as novas configurações!</p>
+              <strong class="text-cyan-600 dark:text-cyan-400 block mb-1">4. Nome e Senha do Wi-Fi</strong>
+              <p>Defina o novo nome (SSID) e a senha da sua rede Wi-Fi, salve e aguarde o reinício do equipamento.</p>
             </div>
           </div>
         `;
@@ -667,7 +669,7 @@
       showToast('Sessão administrativa encerrada.', 'info');
     }
 
-    // Inicialização do Gráfico Chart.js com proporções realistas
+    // Inicialização do Gráfico Chart.js
     const ctx = document.getElementById('chartUsage').getContext('2d');
     const usageChart = new Chart(ctx, {
       type: 'line',
@@ -695,7 +697,7 @@
     });
 
     // ==========================================
-    // FILTRO DINÂMICO DO DASHBOARD (NÚMEROS REALISTAS)
+    // FILTRO DINÂMICO DO DASHBOARD
     // ==========================================
     function filterDashboard(period) {
       document.querySelectorAll('.dashboard-filter').forEach(btn => {
@@ -781,7 +783,7 @@
           
           const badge = document.getElementById('status-badge');
           badge.className = "flex items-center gap-2 text-[13px] font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 px-3.5 py-1.5 rounded-full w-fit mb-4";
-          badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> TP-Link AC1200 Identificado via MAC';
+          badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> TP-Link AC1200 Identificado';
 
           document.getElementById('router-title').innerText = "TP-Link AC1200";
           document.getElementById('router-desc').innerText = "MAC: E8:48:B8:3A:9F:21 - Homologado na Base NetGuide.";
@@ -798,7 +800,7 @@
         
         const badge = document.getElementById('status-badge');
         badge.className = "flex items-center gap-2 text-[13px] font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 px-3.5 py-1.5 rounded-full w-fit mb-4";
-        badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Simulação Virtual Ativa (AC1200)';
+        badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Simulação Virtual Ativa (TP-Link)';
 
         document.getElementById('router-title').innerText = "TP-Link AC1200";
         document.getElementById('router-desc').innerText = "Equipamento simulado com sucesso na plataforma.";
@@ -828,11 +830,13 @@
       const errorOverlay = document.getElementById('ar-error-overlay');
       const wanMarker = document.getElementById('ar-wan-marker');
       const successOverlay = document.getElementById('ar-success-overlay');
+      const lossOverlay = document.getElementById('ar-loss-overlay');
       const btnContinue = document.getElementById('btn-continue-diag');
       const btnSim = document.getElementById('btn-toggle-sim');
       const btnResetGuide = document.getElementById('btn-reset-guide');
 
       btnResetGuide.classList.add('hidden');
+      lossOverlay.classList.add('hidden');
 
       if (isCorrected) {
         errorOverlay.classList.add('hidden');
@@ -863,6 +867,7 @@
       const errorOverlay = document.getElementById('ar-error-overlay');
       const wanMarker = document.getElementById('ar-wan-marker');
       const successOverlay = document.getElementById('ar-success-overlay');
+      const lossOverlay = document.getElementById('ar-loss-overlay');
       const btnContinue = document.getElementById('btn-continue-diag');
       const btnResetGuide = document.getElementById('btn-reset-guide');
       const badge = document.getElementById('status-badge');
@@ -870,6 +875,7 @@
       errorOverlay.classList.add('hidden');
       wanMarker.classList.add('hidden');
       successOverlay.classList.add('hidden');
+      lossOverlay.classList.add('hidden');
       btnContinue.classList.add('hidden');
 
       btnResetGuide.classList.remove('hidden');
@@ -886,6 +892,32 @@
       document.getElementById('router-title').innerText = "TP-Link AC1200 (Padrão de Fábrica)";
       document.getElementById('router-desc').innerText = "Padrão de luzes piscando detectado: Equipamento resetado.";
       showToast('Atenção: Roteador em padrão de fábrica detectado.', 'warning');
+    }
+
+    function simulateLossState() {
+      const errorOverlay = document.getElementById('ar-error-overlay');
+      const wanMarker = document.getElementById('ar-wan-marker');
+      const successOverlay = document.getElementById('ar-success-overlay');
+      const lossOverlay = document.getElementById('ar-loss-overlay');
+      const btnContinue = document.getElementById('btn-continue-diag');
+      const btnResetGuide = document.getElementById('btn-reset-guide');
+      const badge = document.getElementById('status-badge');
+
+      errorOverlay.classList.add('hidden');
+      wanMarker.classList.add('hidden');
+      successOverlay.classList.add('hidden');
+      btnContinue.classList.add('hidden');
+      btnResetGuide.classList.add('hidden');
+
+      lossOverlay.classList.remove('hidden');
+
+      badge.className = "flex items-center gap-2 text-[13px] font-bold text-red-700 dark:text-red-400 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 px-3.5 py-1.5 rounded-full w-fit mb-4";
+      badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span> Alerta Crítico: Link Loss na ONU (LED LOS Vermelho)';
+
+      document.getElementById('router-title').innerText = "ONU Externa (Link Loss Detectado)";
+      document.getElementById('router-desc').innerText = "O LED LOS na caixinha da fibra (ONU à direita) está vermelho. Perda de sinal óptico na rede.";
+      
+      showToast('Alerta: Link Loss detetado na ONU externa!', 'warning');
     }
 
     function finalizeValidation() {
@@ -934,10 +966,10 @@
       if (!data || data.length === 0) {
         await _supabase.from('equipamentos').insert([{
           brand: 'TP-Link',
-          model: 'AC1200',
-          description: 'Roteador Gigabit Dual Band AC1200 (Homologado).',
-          ports: '4 Portas LAN Gigabit, 1 Porta WAN Gigabit',
-          leds: 'LED Power, 2.4GHz, 5GHz, Internet, LAN (Piscar geral indica reset)'
+          model: 'AC1200 + ONU Externa',
+          description: 'Conjunto padrão: Roteador Wi-Fi AC1200 ligado à ONU de fibra óptica.',
+          ports: '1 Porta WAN (Roteador) + Cabo de Fibra (ONU)',
+          leds: 'Power, Wi-Fi, LAN, Internet + LED LOS (Vermelho na ONU indica falha óptica)'
         }]);
         loadEquipmentsFromCloud();
         return;
@@ -965,7 +997,7 @@
             </span>
           </div>
           <div class="px-6 pb-6 pt-1">
-            <button onclick="openDetailsModal('${item.brand} ${item.model}', 'Tecnologia Padrão', '${item.ports}', '${item.leds}')" class="w-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-[13px] font-bold py-2.5 rounded-2xl transition-all duration-200 hover:scale-[1.02] active:scale-95">
+            <button onclick="openDetailsModal('${item.brand} ${item.model}', 'Gigabit Dual Band + Fibra', '${item.ports}', '${item.leds}')" class="w-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-[13px] font-bold py-2.5 rounded-2xl transition-all duration-200 hover:scale-[1.02] active:scale-95">
               Ver detalhes
             </button>
           </div>
@@ -1016,7 +1048,7 @@
       }
     }
 
-    // WHATSAPP WHITE LABEL (COM VALIDAÇÃO INTELIGENTE E AUTO-PREFIXO 55)
+    // WHATSAPP WHITE LABEL
     async function updateWhatsAppNumber(event) {
       event.preventDefault();
       const input = document.getElementById('admin-whatsapp-input').value;
