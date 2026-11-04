@@ -254,6 +254,12 @@
                 <span class="flex items-center gap-2.5"><i data-lucide="wifi" class="w-4 h-4 text-cyan-600"></i> Configuração do Wi-Fi</span>
                 <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
               </button>
+
+              <!-- NOVO BOTÃO: TESTE DE VELOCIDADE (FAST.COM) -->
+              <a href="https://fast.com/pt/" target="_blank" rel="noopener noreferrer" class="w-full flex items-center justify-between p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/80 dark:border-slate-700/80 text-slate-700 dark:text-slate-200 text-[13px] font-medium transition-all duration-200 hover:scale-[1.02] cursor-pointer active:scale-95">
+                <span class="flex items-center gap-2.5"><i data-lucide="gauge" class="w-4 h-4 text-cyan-600"></i> Teste de Velocidade (Fast)</span>
+                <i data-lucide="external-link" class="w-4 h-4 text-slate-400"></i>
+              </a>
             </div>
           </div>
 
@@ -947,7 +953,6 @@
 
     function handleLosAnswer(hasLoss) {
       if (hasLoss) {
-        // Redirecionamento instantâneo compatível com telemóveis (evita bloqueio de popup)
         const whatsappBtn = document.getElementById('btn-whatsapp-support');
         const baseHref = whatsappBtn ? whatsappBtn.href.split('?')[0] : 'https://wa.me/558000500800';
         const message = encodeURIComponent("Olá, o meu app NetGuide diagnosticou um Link Loss (LED LOS vermelho na ONU). Preciso de atendimento técnico.");
